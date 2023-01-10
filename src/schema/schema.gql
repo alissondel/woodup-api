@@ -1,0 +1,510 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input AddCitiesToStateInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
+type City {
+  createdAt: DateTime!
+  deletedAt: DateTime!
+  id: Float!
+  name: String!
+  state: State!
+  updatedAt: DateTime!
+}
+
+type CityAggregateGroupBy {
+  createdAt: DateTime
+  deletedAt: DateTime
+  name: String
+  updatedAt: DateTime
+}
+
+type CityConnection {
+  """Array of nodes."""
+  nodes: [City!]!
+
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type CityCountAggregate {
+  createdAt: Int
+  deletedAt: Int
+  name: Int
+  updatedAt: Int
+}
+
+input CityDeleteFilter {
+  and: [CityDeleteFilter!]
+  createdAt: DateFieldComparison
+  deletedAt: DateFieldComparison
+  name: StringFieldComparison
+  or: [CityDeleteFilter!]
+  updatedAt: DateFieldComparison
+}
+
+type CityDeleteResponse {
+  createdAt: DateTime
+  deletedAt: DateTime
+  id: Float
+  name: String
+  updatedAt: DateTime
+}
+
+input CityFilter {
+  and: [CityFilter!]
+  createdAt: DateFieldComparison
+  deletedAt: DateFieldComparison
+  name: StringFieldComparison
+  or: [CityFilter!]
+  state: CityFilterStateFilter
+  updatedAt: DateFieldComparison
+}
+
+input CityFilterStateFilter {
+  and: [CityFilterStateFilter!]
+  createdAt: DateFieldComparison
+  deletedAt: DateFieldComparison
+  name: StringFieldComparison
+  or: [CityFilterStateFilter!]
+  uf: StringFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+type CityMaxAggregate {
+  createdAt: DateTime
+  deletedAt: DateTime
+  name: String
+  updatedAt: DateTime
+}
+
+type CityMinAggregate {
+  createdAt: DateTime
+  deletedAt: DateTime
+  name: String
+  updatedAt: DateTime
+}
+
+input CitySort {
+  direction: SortDirection!
+  field: CitySortFields!
+  nulls: SortNulls
+}
+
+enum CitySortFields {
+  createdAt
+  deletedAt
+  name
+  updatedAt
+}
+
+input CityUpdateFilter {
+  and: [CityUpdateFilter!]
+  createdAt: DateFieldComparison
+  deletedAt: DateFieldComparison
+  name: StringFieldComparison
+  or: [CityUpdateFilter!]
+  updatedAt: DateFieldComparison
+}
+
+input CreateCityInput {
+  name: String!
+  stateId: Float!
+}
+
+input CreateManyCitiesInput {
+  """Array of records to create"""
+  cities: [CreateCityInput!]!
+}
+
+input CreateManyStatesInput {
+  """Array of records to create"""
+  states: [CreateStateInput!]!
+}
+
+input CreateOneCityInput {
+  """The record to create"""
+  city: CreateCityInput!
+}
+
+input CreateOneStateInput {
+  """The record to create"""
+  state: CreateStateInput!
+}
+
+input CreateStateInput {
+  name: String!
+  uf: String!
+}
+
+input DateFieldComparison {
+  between: DateFieldComparisonBetween
+  eq: DateTime
+  gt: DateTime
+  gte: DateTime
+  in: [DateTime!]
+  is: Boolean
+  isNot: Boolean
+  lt: DateTime
+  lte: DateTime
+  neq: DateTime
+  notBetween: DateFieldComparisonBetween
+  notIn: [DateTime!]
+}
+
+input DateFieldComparisonBetween {
+  lower: DateTime!
+  upper: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+input DeleteManyCitiesInput {
+  """Filter to find records to delete"""
+  filter: CityDeleteFilter!
+}
+
+type DeleteManyResponse {
+  """The number of records deleted."""
+  deletedCount: Int!
+}
+
+input DeleteManyStatesInput {
+  """Filter to find records to delete"""
+  filter: StateDeleteFilter!
+}
+
+input DeleteOneCityInput {
+  """The id of the record to delete."""
+  id: ID!
+}
+
+input DeleteOneStateInput {
+  """The id of the record to delete."""
+  id: ID!
+}
+
+type Mutation {
+  addCitiesToState(input: AddCitiesToStateInput!): State!
+  createManyCities(input: CreateManyCitiesInput!): [City!]!
+  createManyStates(input: CreateManyStatesInput!): [State!]!
+  createOneCity(input: CreateOneCityInput!): City!
+  createOneState(input: CreateOneStateInput!): State!
+  deleteManyCities(input: DeleteManyCitiesInput!): DeleteManyResponse!
+  deleteManyStates(input: DeleteManyStatesInput!): DeleteManyResponse!
+  deleteOneCity(input: DeleteOneCityInput!): CityDeleteResponse!
+  deleteOneState(input: DeleteOneStateInput!): StateDeleteResponse!
+  removeCitiesFromState(input: RemoveCitiesFromStateInput!): State!
+  removeStateFromCity(input: RemoveStateFromCityInput!): City!
+  setCitiesOnState(input: SetCitiesOnStateInput!): State!
+  setStateOnCity(input: SetStateOnCityInput!): City!
+  updateManyCities(input: UpdateManyCitiesInput!): UpdateManyResponse!
+  updateManyStates(input: UpdateManyStatesInput!): UpdateManyResponse!
+  updateOneCity(input: UpdateOneCityInput!): City!
+  updateOneState(input: UpdateOneStateInput!): State!
+}
+
+type OffsetPageInfo {
+  """true if paging forward and there are more records."""
+  hasNextPage: Boolean
+
+  """true if paging backwards and there are more records."""
+  hasPreviousPage: Boolean
+}
+
+input OffsetPaging {
+  """Limit the number of records returned"""
+  limit: Int
+
+  """Offset to start returning records from"""
+  offset: Int
+}
+
+type Query {
+  cities(
+    """Specify to filter the records returned."""
+    filter: CityFilter! = {}
+
+    """Limit or page results."""
+    paging: OffsetPaging! = {limit: 10}
+
+    """Specify to sort results."""
+    sorting: [CitySort!]! = []
+  ): CityConnection!
+  city(
+    """The id of the record to find."""
+    id: ID!
+  ): City
+  state(
+    """The id of the record to find."""
+    id: ID!
+  ): State
+  states(
+    """Specify to filter the records returned."""
+    filter: StateFilter! = {}
+
+    """Limit or page results."""
+    paging: OffsetPaging! = {limit: 10}
+
+    """Specify to sort results."""
+    sorting: [StateSort!]! = []
+  ): StateConnection!
+}
+
+input RemoveCitiesFromStateInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
+input RemoveStateFromCityInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input SetCitiesOnStateInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
+input SetStateOnCityInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+"""Sort Directions"""
+enum SortDirection {
+  ASC
+  DESC
+}
+
+"""Sort Nulls Options"""
+enum SortNulls {
+  NULLS_FIRST
+  NULLS_LAST
+}
+
+type State {
+  cities(
+    """Specify to filter the records returned."""
+    filter: CityFilter! = {}
+
+    """Limit or page results."""
+    paging: OffsetPaging! = {limit: 10}
+
+    """Specify to sort results."""
+    sorting: [CitySort!]! = []
+  ): StateCitiesConnection
+  createdAt: DateTime!
+  deletedAt: DateTime!
+  id: Float!
+  name: String!
+  uf: String!
+  updatedAt: DateTime!
+}
+
+type StateAggregateGroupBy {
+  createdAt: DateTime
+  deletedAt: DateTime
+  name: String
+  uf: String
+  updatedAt: DateTime
+}
+
+type StateCitiesConnection {
+  """Array of nodes."""
+  nodes: [City!]!
+
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type StateConnection {
+  """Array of nodes."""
+  nodes: [State!]!
+
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type StateCountAggregate {
+  createdAt: Int
+  deletedAt: Int
+  name: Int
+  uf: Int
+  updatedAt: Int
+}
+
+input StateDeleteFilter {
+  and: [StateDeleteFilter!]
+  createdAt: DateFieldComparison
+  deletedAt: DateFieldComparison
+  name: StringFieldComparison
+  or: [StateDeleteFilter!]
+  uf: StringFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+type StateDeleteResponse {
+  createdAt: DateTime
+  deletedAt: DateTime
+  id: Float
+  name: String
+  uf: String
+  updatedAt: DateTime
+}
+
+input StateFilter {
+  and: [StateFilter!]
+  cities: StateFilterCityFilter
+  createdAt: DateFieldComparison
+  deletedAt: DateFieldComparison
+  name: StringFieldComparison
+  or: [StateFilter!]
+  uf: StringFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input StateFilterCityFilter {
+  and: [StateFilterCityFilter!]
+  createdAt: DateFieldComparison
+  deletedAt: DateFieldComparison
+  name: StringFieldComparison
+  or: [StateFilterCityFilter!]
+  updatedAt: DateFieldComparison
+}
+
+type StateMaxAggregate {
+  createdAt: DateTime
+  deletedAt: DateTime
+  name: String
+  uf: String
+  updatedAt: DateTime
+}
+
+type StateMinAggregate {
+  createdAt: DateTime
+  deletedAt: DateTime
+  name: String
+  uf: String
+  updatedAt: DateTime
+}
+
+input StateSort {
+  direction: SortDirection!
+  field: StateSortFields!
+  nulls: SortNulls
+}
+
+enum StateSortFields {
+  createdAt
+  deletedAt
+  name
+  uf
+  updatedAt
+}
+
+input StateUpdateFilter {
+  and: [StateUpdateFilter!]
+  createdAt: DateFieldComparison
+  deletedAt: DateFieldComparison
+  name: StringFieldComparison
+  or: [StateUpdateFilter!]
+  uf: StringFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input StringFieldComparison {
+  eq: String
+  gt: String
+  gte: String
+  iLike: String
+  in: [String!]
+  is: Boolean
+  isNot: Boolean
+  like: String
+  lt: String
+  lte: String
+  neq: String
+  notILike: String
+  notIn: [String!]
+  notLike: String
+}
+
+input UpdateCityInput {
+  id: Float!
+  name: String
+  stateId: Float
+}
+
+input UpdateManyCitiesInput {
+  """Filter used to find fields to update"""
+  filter: CityUpdateFilter!
+
+  """The update to apply to all records found using the filter"""
+  update: UpdateCityInput!
+}
+
+type UpdateManyResponse {
+  """The number of records updated."""
+  updatedCount: Int!
+}
+
+input UpdateManyStatesInput {
+  """Filter used to find fields to update"""
+  filter: StateUpdateFilter!
+
+  """The update to apply to all records found using the filter"""
+  update: UpdateStateInput!
+}
+
+input UpdateOneCityInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateCityInput!
+}
+
+input UpdateOneStateInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateStateInput!
+}
+
+input UpdateStateInput {
+  name: String
+  uf: String
+}
