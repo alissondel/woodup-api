@@ -12,13 +12,8 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 // IMPORT TYPEORM
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-// IMPORT ENTITES
-import { State } from './modules/states/entities/state.entity'
-import { City } from './modules/cities/entities/city.entity'
-
 // IMPORT MODULE
-import { StatesModule } from './modules/states/states.module';
-import { CitiesModule } from './modules/cities/cities.module';
+import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [
@@ -36,12 +31,11 @@ import { CitiesModule } from './modules/cities/cities.module';
       database: process.env.DATABASE_NAME,
       username: process.env.DATABASE_USERNAME,
       password: process.env.DATABASE_PASSWORD,
-      entities: [State, City],
+      entities: [__dirname + '/modules/*/model/*.{js,ts}'],
       synchronize: true,
       logging: true,
     }),
-    StatesModule,
-    CitiesModule,
+    UsersModule,
   ],
   providers: [],
 })

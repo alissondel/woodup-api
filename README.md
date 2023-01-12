@@ -67,5 +67,5 @@ Nest is [MIT licensed](LICENSE).
 ```
 $ nest g res state     (CRIA ENDPOINTS)
 $ nest g res cities     (CRIA ENDPOINTS)
-
+$ nest g res people     (CRIA ENDPOINTS)
 ```
