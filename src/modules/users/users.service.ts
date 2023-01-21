@@ -1,34 +1,33 @@
-import { 
-  Injectable,
-  NotFoundException,
-  InternalServerErrorException,
-} from '@nestjs/common';
-
 import { InjectRepository } from '@nestjs/typeorm';
 import { Between, Like, Repository } from 'typeorm';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
+import { User } from './model/user.entity';
+import { FilterUserInput } from './dto/filter-user.input';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
-import { User } from './model/user.entity';
 
-import { FilterUserInput } from './dto/filter-user.input';
+// IMPORT DOTENV
+import * as dotenv from 'dotenv';
+dotenv.config();
 
+import * as md5 from "md5";
 
 @Injectable()
 export class UsersService  {
   constructor(
     @InjectRepository(User)
-    private userRepository: Repository<User>
+    public userRepository: Repository<User>,
   ){}
 
-  async getUserById(id: any): Promise<User> {
-    const user = await this.userRepository.findOne(id);
+  async getUserById(id: number): Promise<User> {
+    const user = await this.userRepository.findOne({where: {id: id}});
 
     if(!user) {
       throw new NotFoundException('Usuario não existe!');
-    }
+    };
     return user
-  }
+  };
 
   async findAllUsers(filters: FilterUserInput): Promise<User[]> {
     return await this.userRepository.find({ 
@@ -53,25 +52,42 @@ export class UsersService  {
         },
       },
     });
-  }
+  };
 
-  async createUser(data: CreateUserInput): Promise<User> {
-    const user = this.userRepository.create(data);
+  async create(data: CreateUserInput): Promise<User> {
+    const { password, active, createdAt, ...rest } = data;
+
+    const encryptedPassword = md5(password + process.env.JWT);
+
+    const createdUser = { 
+      ...rest,
+      password: encryptedPassword,
+      active: true,
+      createdAt: new Date()
+    }
+
+    const user = this.userRepository.create(createdUser);
     return this.userRepository.save(user);
-  }
+  };
 
-  async updateUser(data: UpdateUserInput): Promise<User> {
-    const user = await this.getUserById(data.id);
+  async update(id: number, data: UpdateUserInput): Promise<User> {
+    const user = await this.userRepository.findOne({ where: { id } });
+
+    if(!user) {
+      throw new NotFoundException('Usuario não existe!');
+    }
+
+    return this.userRepository.save({ ...user, ...data });
+  };
+  
+  async delete(id: number): Promise<User> {
+    const user = await this.userRepository.findOne({ where: { id } });
+    const data = { updatedAt: new Date(), active: false }
+
+    if(!user) {
+      throw new NotFoundException('Usuario não existe!');
+    }
+
     return this.userRepository.save({ ...user, ...data });
   }
-
-  async deleteUser(id: number): Promise<void> {
-    const user = await this.getUserById(id);
-    const userDeleted = await this.userRepository.delete(user);
-
-    if (!userDeleted) {
-      throw new InternalServerErrorException();
-    }
-  }
-
-}
+};

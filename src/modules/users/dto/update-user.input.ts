@@ -5,23 +5,21 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
-  IsInt,
-  IsBoolean,
-  IsDate,
+
 } from 'class-validator';
 
 @InputType()
 export class UpdateUserInput {
-  @IsInt()
-  @IsOptional()
-  @Field(() => Int)
-  id?: number;
-
   @IsOptional()
   @IsString()
   @IsNotEmpty({ message: 'Caracteres Invalidos' })
   @Field()
   name?: string;
+
+  @IsString()
+  @IsNotEmpty({ message: 'Caracteres Invalidos' })
+  @Field()
+  phoneNumber?: string;
 
   @IsOptional()
   @IsEmail()
@@ -35,12 +33,7 @@ export class UpdateUserInput {
   @Field()
   password?: string;
 
-  @IsBoolean()
-  @IsNotEmpty({ message: 'Precisa ser verdadeiro ou falso' })
-  @Field({ nullable: true, defaultValue: true })
-  active?: boolean;
-
-  @IsDate()
-  @Field({ nullable: true })
-  updatedAt!: Date
+  // @IsDate()
+  // @Field({ nullable: true })
+  // updatedAt!: Date
 }

@@ -1,9 +1,9 @@
-import { Field, Int, InterfaceType } from "type-graphql";
+import { Field, Int, InterfaceType } from "@nestjs/graphql";
 
 @InterfaceType()
 export class IUser{
 
-  @Field(() => Int)
+  @Field()
   id: number;
 
   @Field()
@@ -16,7 +16,7 @@ export class IUser{
   email: string;
 
   @Field()
-  password: string;
+  password?: string;
 
   @Field()
   active: boolean;

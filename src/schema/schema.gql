@@ -29,7 +29,7 @@ input FilterUserInput {
 
 type Mutation {
   createUser(data: CreateUserInput!): User!
-  deleteUser(id: Float!): Boolean!
+  deleteUser(id: Float!): User!
   updateUser(data: UpdateUserInput!, id: Float!): User!
 }
 
@@ -45,12 +45,10 @@ type Query {
 }
 
 input UpdateUserInput {
-  active: Boolean = true
   email: String!
-  id: Int!
   name: String!
   password: String!
-  updatedAt: DateTime
+  phoneNumber: String!
 }
 
 type User {
@@ -58,7 +56,7 @@ type User {
   createdAt: DateTime!
   deletedAt: DateTime!
   email: String!
-  id: Int!
+  id: Float!
   name: String!
   password: String!
   phoneNumber: String!

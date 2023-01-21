@@ -19,7 +19,7 @@ import { IUser } from 'src/interfaces/IUser';
 @Entity()
 export class User extends IUser {
   @PrimaryGeneratedColumn('increment')
-  @Field(() => Int)
+  @Field()
   id: number;
 
   @Column()
@@ -35,8 +35,7 @@ export class User extends IUser {
   email: string;
 
   @Column()
-  @Field()
-  password: string;
+  password?: string;
 
   @Column()
   @Field()
