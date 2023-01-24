@@ -5,7 +5,7 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
-
+  IsDate
 } from 'class-validator';
 
 @InputType()
@@ -33,7 +33,8 @@ export class UpdateUserInput {
   @Field()
   password?: string;
 
-  // @IsDate()
-  // @Field({ nullable: true })
-  // updatedAt!: Date
+  @IsOptional()
+  @IsDate()
+  @Field({ nullable: true })
+  updatedAt!: Date
 }

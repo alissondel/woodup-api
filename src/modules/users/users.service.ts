@@ -21,13 +21,22 @@ export class UsersService  {
   ){}
 
   async getUserById(id: number): Promise<User> {
-    const user = await this.userRepository.findOne({where: {id: id}});
+    const user = await this.userRepository.findOne({where: {id}});
 
     if(!user) {
       throw new NotFoundException('Usuario não existe!');
     };
     return user
   };
+
+  async getUserByEmail(email: string): Promise<User> {
+    const user = await this.userRepository.findOne({where: {email}});
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    };
+    return user;
+  }
 
   async findAllUsers(filters: FilterUserInput): Promise<User[]> {
     return await this.userRepository.find({ 
@@ -71,18 +80,28 @@ export class UsersService  {
   };
 
   async update(id: number, data: UpdateUserInput): Promise<User> {
+    const { password, updatedAt, ...rest } = data;
+
+    const encryptedPassword = md5(password + process.env.JWT);
+    
     const user = await this.userRepository.findOne({ where: { id } });
 
     if(!user) {
       throw new NotFoundException('Usuario não existe!');
     }
 
-    return this.userRepository.save({ ...user, ...data });
+    const updatedUser = {
+      ...rest,
+      password: encryptedPassword,
+      updatedAt: new Date(),
+    }
+
+    return this.userRepository.save({ ...user, ...updatedUser });
   };
   
   async delete(id: number): Promise<User> {
     const user = await this.userRepository.findOne({ where: { id } });
-    const data = { updatedAt: new Date(), active: false }
+    const data = { deletedAt: new Date(), active: false }
 
     if(!user) {
       throw new NotFoundException('Usuario não existe!');
