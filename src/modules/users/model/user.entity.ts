@@ -1,6 +1,5 @@
 import { 
   Field, 
-  Int, 
   ObjectType 
 } from '@nestjs/graphql';
 
@@ -14,6 +13,7 @@ import {
 } from 'typeorm';
 
 import { IUser } from 'src/interfaces/IUser';
+import PaginatedResponse from "../../pagination/model/PaginatedResponse"
 
 @ObjectType('User')
 @Entity()
@@ -53,3 +53,6 @@ export class User extends IUser {
   @Field()
   deletedAt: Date
 }
+
+@ObjectType()
+export class PaginatedUserResponse extends PaginatedResponse(User) {}

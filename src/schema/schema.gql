@@ -50,10 +50,22 @@ input OrderByFilterInput {
   value: String! = "ASC"
 }
 
+type PageInfo {
+  count: Int!
+  currentPage: Int!
+  pagesCount: Int!
+  perPage: Int!
+}
+
+type PaginatedUserResponse {
+  items: [User!]!
+  pagination: PageInfo!
+}
+
 type Query {
   user(id: Float!): User!
   userByEmail(email: String!): User!
-  users(filters: FilterUserInput!): [User!]!
+  users(currentPage: Int = 1, filters: FilterUserInput!, perPage: Int = 10): PaginatedUserResponse!
 }
 
 input UpdateUserInput {

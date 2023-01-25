@@ -2,10 +2,16 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Between, Like, Repository } from 'typeorm';
 import { Injectable, NotFoundException } from '@nestjs/common';
 
+// IMPORT USERS
 import { User } from './model/user.entity';
 import { FilterUserInput } from './dto/filter-user.input';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
+
+// IMPORT PAGINATE
+import { PageInfo } from 'src/modules/pagination/model/pagination.entity';
+import { PaginationArgs } from 'src/filters/PaginationArgs';
+import Paginate from 'src/utils/Paginate';
 
 // IMPORT DOTENV
 import * as dotenv from 'dotenv';
@@ -38,8 +44,13 @@ export class UsersService  {
     return user;
   }
 
-  async findAllUsers(filters: FilterUserInput): Promise<User[]> {
-    return await this.userRepository.find({ 
+  async findAllUsers(
+    { perPage, currentPage }: PaginationArgs,
+    filters: FilterUserInput
+    ): Promise<any> {
+    const [items, count]: any = await this.userRepository.findAndCount({
+      skip: perPage * (currentPage - 1),
+      take: perPage, 
       where: {
         ...filters.id && { id: filters.id},
         ...filters.name && { name: Like(`%${filters.name}%`)},
@@ -52,15 +63,16 @@ export class UsersService  {
         active: filters.active,
       },
       order: {
-        ...filters.order.prefix ? {
-            [filters.order.prefix]: {
-                [filters.order.key]: filters.order.value
-            },
-        } : {
-            [filters.order.key]: filters.order.value
-        },
+        [filters.order.key]: filters.order.value
       },
     });
+
+    const pagination: PageInfo = await Paginate(count, perPage, currentPage);
+
+    return {
+      items,
+      pagination
+    }
   };
 
   async create(data: CreateUserInput): Promise<User> {

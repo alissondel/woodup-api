@@ -2,7 +2,7 @@ import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 
 //IMPORTS USER
-import { User } from './model/user.entity';
+import { PaginatedUserResponse, User } from './model/user.entity';
 import { UsersService } from './users.service';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
@@ -10,6 +10,7 @@ import { FilterUserInput } from './dto/filter-user.input';
 
 //IMPORT JWT-AUTH-GUARD
 import { GqlAuthGuard } from '../auth/jwt-auth.guard';
+import { PaginationArgs } from 'src/filters/PaginationArgs';
 @Resolver('User')
 export class UsersResolver {
   constructor(private readonly UserService: UsersService) {}
@@ -27,11 +28,12 @@ export class UsersResolver {
   }
 
   @UseGuards(GqlAuthGuard)
-  @Query(() => [User])
+  @Query(() => PaginatedUserResponse)
   async users(
+    @Args() paginationArgs: PaginationArgs,
     @Args("filters") filters: FilterUserInput,
-  ): Promise<User[]> {
-    return await this.UserService.findAllUsers(filters);
+  ): Promise<PaginatedUserResponse> {
+    return await this.UserService.findAllUsers(paginationArgs, filters);
   };
 
   @Mutation(() => User)
