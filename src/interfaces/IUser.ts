@@ -1,4 +1,4 @@
-import { Field, Int, InterfaceType } from "@nestjs/graphql";
+import { Field, InterfaceType } from "@nestjs/graphql";
 
 @InterfaceType()
 export class IUser{

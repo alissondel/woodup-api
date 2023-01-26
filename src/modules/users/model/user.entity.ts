@@ -14,7 +14,6 @@ import {
 
 import { IUser } from 'src/interfaces/IUser';
 import PaginatedResponse from "../../pagination/model/PaginatedResponse"
-
 @ObjectType('User')
 @Entity()
 export class User extends IUser {
