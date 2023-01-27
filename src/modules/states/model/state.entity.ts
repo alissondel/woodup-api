@@ -12,11 +12,12 @@ import {
   DeleteDateColumn
 } from 'typeorm';
 
-import { IUser } from 'src/interfaces/IUser';
+import { IState } from 'src/interfaces/IState';
 import PaginatedResponse from "../../pagination/model/PaginatedResponse";
-@ObjectType('User')
+
+@ObjectType('State')
 @Entity()
-export class User extends IUser {
+export class State extends IState{
   @PrimaryGeneratedColumn('increment')
   @Field()
   id: number;
@@ -25,16 +26,9 @@ export class User extends IUser {
   @Field()
   name: string;
 
-  @Column({ name: "phone_number" })
-  @Field()
-  phoneNumber: string;
-
   @Column()
   @Field()
-  email: string;
-
-  @Column()
-  password?: string;
+  uf: string;
 
   @Column()
   @Field()
@@ -54,4 +48,4 @@ export class User extends IUser {
 }
 
 @ObjectType()
-export class PaginatedUserResponse extends PaginatedResponse(User) {}
+export class PaginatedStateResponse extends PaginatedResponse(State) {}

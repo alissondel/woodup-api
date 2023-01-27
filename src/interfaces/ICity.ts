@@ -1,9 +1,9 @@
-import { Field, ID, InterfaceType } from "type-graphql";
+import { Field, InterfaceType } from "@nestjs/graphql";
 
 @InterfaceType()
 export class ICity{
 
-  @Field(() => ID)
+  @Field()
   id: number;
 
   @Field()

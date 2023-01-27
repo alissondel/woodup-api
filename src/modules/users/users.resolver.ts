@@ -18,13 +18,13 @@ export class UsersResolver {
   @UseGuards(GqlAuthGuard)
   @Query(() => User)
   async user(@Args('id') id: number): Promise<User> {
-    return this.UserService.getUserById(id);
+    return await this.UserService.getUserById(id);
   };
 
   @UseGuards(GqlAuthGuard)
   @Query(() => User)
   async userByEmail(@Args('email') email: string): Promise<User> {
-    return this.UserService.getUserByEmail(email);
+    return await this.UserService.getUserByEmail(email);
   }
 
   @UseGuards(GqlAuthGuard)
@@ -38,7 +38,7 @@ export class UsersResolver {
 
   @Mutation(() => User)
   async createUser(@Args('data') data: CreateUserInput): Promise<User> {
-    return this.UserService.create(data);
+    return await this.UserService.create(data);
   };
 
   @UseGuards(GqlAuthGuard)
@@ -47,7 +47,7 @@ export class UsersResolver {
     @Args('id') id: number,
     @Args('data') data: UpdateUserInput,
   ): Promise<User> {
-    return this.UserService.update(id, data);
+    return await this.UserService.update(id, data);
   };
 
   @Mutation(() => User)

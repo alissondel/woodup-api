@@ -13,6 +13,9 @@ export class IState{
   uf: string;
 
   @Field()
+  active: boolean;
+
+  @Field()
   createdAt: Date
 
   @Field({nullable: true})

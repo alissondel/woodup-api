@@ -71,7 +71,7 @@ export class UsersService  {
 
     return {
       items,
-      pagination
+      pagination,
     }
   };
 
@@ -84,7 +84,7 @@ export class UsersService  {
       ...rest,
       password: encryptedPassword,
       active: true,
-      createdAt: new Date()
+      createdAt: new Date(),
     }
 
     const user = this.userRepository.create(createdUser);

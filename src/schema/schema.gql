@@ -12,6 +12,13 @@ type AuthType {
   user: User!
 }
 
+input CreateStateInput {
+  active: Boolean = true
+  createdAt: DateTime
+  name: String!
+  uf: String!
+}
+
 input CreateUserInput {
   active: Boolean = true
   createdAt: DateTime
@@ -26,6 +33,15 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+input FilterStateInput {
+  active: Boolean
+  createdAt: DateTime
+  id: Int
+  name: String
+  order: OrderByFilterInput
+  uf: String
+}
+
 input FilterUserInput {
   active: Boolean
   createdAt: DateTime
@@ -39,8 +55,11 @@ input FilterUserInput {
 
 type Mutation {
   authenticate(data: AuthInput!): AuthType!
+  createState(data: CreateStateInput!): State!
   createUser(data: CreateUserInput!): User!
+  deleteState(id: Float!): State!
   deleteUser(id: Float!): User!
+  updateState(data: UpdateStateInput!, id: Float!): State!
   updateUser(data: UpdateUserInput!, id: Float!): User!
 }
 
@@ -57,15 +76,38 @@ type PageInfo {
   perPage: Int!
 }
 
+type PaginatedStateResponse {
+  items: [State!]!
+  pagination: PageInfo!
+}
+
 type PaginatedUserResponse {
   items: [User!]!
   pagination: PageInfo!
 }
 
 type Query {
+  state(id: Float!): State!
+  states(currentPage: Int = 1, filters: FilterStateInput!, perPage: Int = 10): PaginatedStateResponse!
   user(id: Float!): User!
   userByEmail(email: String!): User!
   users(currentPage: Int = 1, filters: FilterUserInput!, perPage: Int = 10): PaginatedUserResponse!
+}
+
+type State {
+  active: Boolean!
+  createdAt: DateTime!
+  deletedAt: DateTime!
+  id: Float!
+  name: String!
+  uf: String!
+  updatedAt: DateTime!
+}
+
+input UpdateStateInput {
+  name: String!
+  uf: String!
+  updatedAt: DateTime
 }
 
 input UpdateUserInput {
