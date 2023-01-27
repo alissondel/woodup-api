@@ -87,7 +87,7 @@ export class UsersService  {
       createdAt: new Date(),
     }
 
-    const user = this.userRepository.create(createdUser);
+    const user = await this.userRepository.create(createdUser);
     return this.userRepository.save(user);
   };
 
